@@ -34,3 +34,12 @@
     background-size: 120px 104px;
   }
 }
+
+.globe {
+  @include hidpi-background-image('globe', 32px 32px);
+  @include respond-to('small') {
+    background-size: 32px32px;
+  }
+  background-repeat:no-repeat;
+  background-position: center center;
+}

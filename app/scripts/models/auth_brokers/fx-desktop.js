@@ -25,7 +25,8 @@ define([
       CHANGE_PASSWORD: 'change_password',
       DELETE_ACCOUNT: 'delete_account',
       LOADED: 'loaded',
-      LOGIN: 'login'
+      LOGIN: 'login',
+      PASSWORD_MANAGER: 'password_manager',
     },
 
     /**

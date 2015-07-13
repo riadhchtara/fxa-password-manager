@@ -437,8 +437,13 @@ msgstr ""
 msgid "Learn more."
 msgstr ""
 
-#: app/scripts/templates/change_password.mustache:1
+#: app/scripts/templates/password_manager.mustache:1
 #: app/scripts/templates/settings.mustache:7
+msgid "Password Manager"
+msgstr ""
+
+#: app/scripts/templates/change_password.mustache:1
+#: app/scripts/templates/settings.mustache:8
 msgid "Change password"
 msgstr ""
 
@@ -625,7 +630,7 @@ msgstr ""
 
 #: app/scripts/templates/delete_account.mustache:1
 #: app/scripts/templates/delete_account.mustache:5
-#: app/scripts/templates/settings.mustache:8
+#: app/scripts/templates/settings.mustache:9
 msgid "Delete account"
 msgstr ""
 
@@ -671,14 +676,14 @@ msgid "Legal"
 msgstr ""
 
 #: app/scripts/templates/legal.mustache:3
-#: app/scripts/templates/settings.mustache:11
+#: app/scripts/templates/settings.mustache:12
 #: app/scripts/templates/tos.mustache:2
 msgid "Terms of Service"
 msgstr ""
 
 #: app/scripts/templates/legal.mustache:4
 #: app/scripts/templates/pp.mustache:2
-#: app/scripts/templates/settings.mustache:12
+#: app/scripts/templates/settings.mustache:13
 msgid "Privacy Notice"
 msgstr ""
 
@@ -790,7 +795,7 @@ msgstr ""
 msgid "You are signed in as"
 msgstr ""
 
-#: app/scripts/templates/settings.mustache:9
+#: app/scripts/templates/settings.mustache:10
 msgid "Sign out"
 msgstr ""
 

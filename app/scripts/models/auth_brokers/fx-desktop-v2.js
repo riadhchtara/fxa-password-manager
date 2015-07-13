@@ -25,7 +25,8 @@ define([
       CHANGE_PASSWORD: 'fxaccounts:change_password',
       DELETE_ACCOUNT: 'fxaccounts:delete_account',
       LOADED: 'fxaccounts:loaded',
-      LOGIN: 'fxaccounts:login'
+      LOGIN: 'fxaccounts:login',
+      PASSWORD_MANAGER: 'fxaccounts:password_manager',
     },
 
     createChannel: function () {
