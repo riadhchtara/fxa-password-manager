@@ -20,6 +20,7 @@ function isValidRoute(route) {
 module.exports = function (config, i18n) {
 
   var routes = [
+    require('./routes/fx-sync-api')(i18n),
     require('./routes/get-terms-privacy')(i18n),
     require('./routes/get-index')(),
     require('./routes/get-ver.json'),

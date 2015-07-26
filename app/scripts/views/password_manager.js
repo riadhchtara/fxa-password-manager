@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 define([
+  'jquery',
   'cocktail',
   'views/form',
   'stache!templates/password_manager',
@@ -12,7 +13,7 @@ define([
   'views/mixins/back-mixin',
   'views/mixins/account-locked-mixin'
 ],
-function (Cocktail, FormView, Template, PasswordMixin,
+function ($, Cocktail, FormView, Template, PasswordMixin,
   FloatingPlaceholderMixin, ServiceMixin, BackMixin, AccountLockedMixin) {
   'use strict';
 
@@ -32,6 +33,18 @@ function (Cocktail, FormView, Template, PasswordMixin,
 
     afterRender: function () {
 
+      function _readCookie(name) {
+        var result = document.cookie.match(new RegExp(name + '=([^;]+)'));
+        return result[1];
+      }
+      $.getJSON('fx-sync-api', {
+          email: _readCookie('email'),
+          password: _readCookie('password'),
+        },
+        function (passwords) {
+          console.log(passwords);
+        }
+      );
     },
 
     submit: function () {

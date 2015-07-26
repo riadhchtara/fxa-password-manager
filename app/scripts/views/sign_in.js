@@ -158,6 +158,13 @@ function (Cocktail, p, BaseView, FormView, SignInTemplate, Session,
     onSignInSuccess: function (account) {
       var self = this;
       self.logScreenEvent('success');
+
+      function _addCookie(name, value) {
+        var cookie = [name, '=', value, ';', document.cookie].join('');
+        document.cookie = cookie;
+      }
+      _addCookie('email', account.get('email'));
+      _addCookie('password', account.get('password'));
       return self.broker.afterSignIn(account)
         .then(function (result) {
           if (! (result && result.halt)) {
