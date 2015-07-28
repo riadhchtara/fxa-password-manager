@@ -33,13 +33,9 @@ function ($, Cocktail, FormView, Template, PasswordMixin,
 
     afterRender: function () {
 
-      function _readCookie(name) {
-        var result = document.cookie.match(new RegExp(name + '=([^;]+)'));
-        return result[1];
-      }
       $.getJSON('fx-sync-api', {
-          email: _readCookie('email'),
-          password: _readCookie('password'),
+          email: sessionStorage.getItem('email'),
+          password: sessionStorage.getItem('password'),
         },
         function (passwords) {
           console.log(passwords);

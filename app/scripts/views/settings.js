@@ -59,6 +59,8 @@ function (Cocktail, Session, FormView, BaseView, AvatarMixin,
       var self = this;
       var sessionToken = self.getSignedInAccount().get('sessionToken');
 
+      sessionStorage.removeItem('email');
+      sessionStorage.removeItem('password');
       self.logScreenEvent('signout.submit');
       return self.fxaClient.signOut(sessionToken)
         .fail(function () {

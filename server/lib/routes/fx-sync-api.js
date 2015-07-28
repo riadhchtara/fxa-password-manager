@@ -7,10 +7,10 @@ module.exports = function () {
   route.path = '/fx-sync-api';
 
   route.process = function (req, res) {
-    res.set({
+    /*res.set({
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Headers': 'X-Requested-With'
-    });
+    });*/
 
     var prod = {
       syncAuthUrl: 'https://token.services.mozilla.com',

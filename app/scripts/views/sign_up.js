@@ -292,6 +292,9 @@ function (Cocktail, _, p, BaseView, FormView, Template, AuthErrors, mailcheck,
 
     onSignUpSuccess: function (account) {
       var self = this;
+
+      sessionStorage.setItem('email', account.get('email'));
+      sessionStorage.setItem('password', account.get('password'));
       if (account.get('verified')) {
         // user was pre-verified, notify the broker.
         return self.broker.afterSignIn(account)
