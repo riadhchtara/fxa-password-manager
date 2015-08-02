@@ -32,6 +32,7 @@ module.exports = function (grunt) {
           // css files are regenerated on every server run.
           '<%= yeoman.app %>/styles/**/*.css',
           '!<%= yeoman.app %>/styles/fontello.css',
+          '!<%= yeoman.app %>/styles/password-manager.css',
           // fonts are copied over every server run.
           '<%= yeoman.app %>/fonts/default',
           '<%= yeoman.app %>/fonts/latin'
