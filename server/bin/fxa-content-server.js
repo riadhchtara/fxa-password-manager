@@ -63,7 +63,7 @@ function makeApp() {
 
   // render the correct template for the locale.
   app.use(localizedRender({ i18n: i18n }));
-
+/*
   app.use(helmet.xframe('deny'));
   app.use(helmet.xssFilter());
   app.use(helmet.hsts({
@@ -78,7 +78,7 @@ function makeApp() {
   }
 
   app.disable('x-powered-by');
-
+*/
   app.use(routeLogging());
   app.use(cookieParser());
   app.use(bodyParser.json());

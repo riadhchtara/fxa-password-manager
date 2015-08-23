@@ -16,7 +16,7 @@ define([
   'views/mixins/service-mixin',
   'views/mixins/checkbox-mixin',
   'views/mixins/resume-token-mixin',
-  'views/coppa/coppa-date-picker'
+  'views/coppa/coppa-date-picker',
 ],
 function (Cocktail, _, p, BaseView, FormView, Template, AuthErrors, mailcheck,
       Url, PasswordMixin, ServiceMixin, CheckboxMixin, ResumeTokenMixin, CoppaDatePicker) {

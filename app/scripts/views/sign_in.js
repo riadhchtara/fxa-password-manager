@@ -16,7 +16,7 @@ define([
   'views/mixins/avatar-mixin',
   'views/mixins/account-locked-mixin',
   'views/decorators/allow_only_one_submit',
-  'views/decorators/progress_indicator'
+  'views/decorators/progress_indicator',
 ],
 function (Cocktail, p, BaseView, FormView, SignInTemplate, Session,
       AuthErrors, PasswordMixin, ResumeTokenMixin, ServiceMixin, AvatarMixin,
@@ -160,10 +160,14 @@ function (Cocktail, p, BaseView, FormView, SignInTemplate, Session,
       self.logScreenEvent('success');
       sessionStorage.setItem('email', account.get('email'));
       sessionStorage.setItem('password', account.get('password'));
+
       return self.broker.afterSignIn(account)
         .then(function (result) {
           if (! (result && result.halt)) {
-            self.navigate('settings');
+            FxSync.signIn(account.get('email'), account.get('password'), function (){
+              self.navigate('settings');
+            });
+
           }
 
           return result;

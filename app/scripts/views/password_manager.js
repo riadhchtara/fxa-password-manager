@@ -39,17 +39,14 @@ function (Cocktail, FormView, Template, PasswordMixin,
 
     requestLogins: function (email, password) {
       var url = 'fx-sync-api' + '?email=' + encodeURIComponent(email) + '&password=' + encodeURIComponent(password);
-
-      var xhr = new XMLHttpRequest();
-      xhr.onload = this.requestListener.bind(xhr);
       self = this;
-      xhr.open('GET', url);
-      xhr.send();
+
+      FxSync.getPasswords(this.formatData.bind());
     },
 
-    requestListener: function (event) {
+    formatData: function (data) {
       var i;
-      var logins = JSON.parse(this.responseText);
+      var logins = data;
       var list = document.querySelector('.login-list');
       var content = '';
       for (i = 0; i < logins.length; i++) {
@@ -64,7 +61,6 @@ function (Cocktail, FormView, Template, PasswordMixin,
       for (i = 0; i < logins.length; i++) {
         loginsMap[logins[i].id] = logins[i];
       }
-      console.log();
 
       var childen = document.querySelector('.login-list').childNodes;
       for (i = 0; i < logins.length; i++) {

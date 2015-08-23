@@ -2,6 +2,10 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+
+var FxAccountClient;
+var myxmlhttp = XMLHttpRequest;
+
 define([
   'cocktail',
   'underscore',
@@ -13,11 +17,16 @@ define([
   'lib/strings',
   'lib/ephemeral-messages',
   'lib/null-metrics',
-  'views/mixins/timer-mixin'
+  'views/mixins/timer-mixin',
+  'fxaClient',
+  'fxSyncClient',
 ],
 function (Cocktail, _, Backbone, Raven, $, p, AuthErrors,
-      Strings, EphemeralMessages, NullMetrics, TimerMixin) {
+      Strings, EphemeralMessages, NullMetrics, TimerMixin,
+      FxClient, fxSyncClient) {
   'use strict';
+
+  FxAccountClient = FxClient;
 
   var DEFAULT_TITLE = window.document.title;
   var EPHEMERAL_MESSAGE_ANIMATION_MS = 150;

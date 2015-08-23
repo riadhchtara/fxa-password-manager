@@ -9,6 +9,7 @@ require.config({
     backbone: '../bower_components/backbone/backbone',
     underscore: '../bower_components/underscore/underscore',
     fxaClient: '../bower_components/fxa-js-client/fxa-client',
+    fxSyncClient: 'vendor/fx-sync-client', 
     text: '../bower_components/requirejs-text/text',
     mustache: '../bower_components/mustache/mustache',
     stache: '../bower_components/requirejs-mustache/stache',
