@@ -3,6 +3,7 @@
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
 define([
+  'jquery',
   'cocktail',
   'views/form',
   'stache!templates/password_manager',
@@ -12,7 +13,7 @@ define([
   'views/mixins/back-mixin',
   'views/mixins/account-locked-mixin'
 ],
-function (Cocktail, FormView, Template, PasswordMixin,
+function ($, Cocktail, FormView, Template, PasswordMixin,
   FloatingPlaceholderMixin, ServiceMixin, BackMixin, AccountLockedMixin) {
   'use strict';
 
@@ -33,13 +34,12 @@ function (Cocktail, FormView, Template, PasswordMixin,
     },
 
     afterRender: function () {
-    },
-
-
-    requestLogins: function (email, password) {
       self = this;
-
       FxSync.getPasswords(this.formatData.bind());
+      $('#edit').click(function() {
+        alert("mm")
+        $('#login-password').attr('type', 'text');
+      });
     },
 
     formatData: function (data) {
@@ -83,6 +83,11 @@ function (Cocktail, FormView, Template, PasswordMixin,
       document.querySelector('.login-detail .domain').innerHTML = current.hostname;
       document.getElementById('login-username').value = current.username;
       document.getElementById('login-password').value = current.password;
+      document.getElementById('delete').onclick = function () {
+        FxSync.deletePassword(current.id, function () {
+          self.afterRender();
+        });
+      }
     },
     urlType: function (url) {
       url = url.toLowerCase();

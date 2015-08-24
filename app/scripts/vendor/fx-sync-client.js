@@ -10,7 +10,7 @@ function arr(a){
 }
 
 function fetchData(client, type, callback) {
-  client.fetchCollection(type, { full:true }).then(function (data) {
+  client.fetchCollection(type, { full: true }).then(function (data) {
     console.log(JSON.stringify(data, null, 2));
     callback(data);
   }, function (e) {
@@ -51,15 +51,30 @@ FxSync = {
     var client = new syncClient(authState);
     client.prepare().then(function () {
       console.log('yes');
-      fetchData(client, 'passwords', callback)
+      fetchData(client, 'passwords', callback);
     }, function (e) {
       console.log('', e);
     }).done();
   },
   signOut: function() {
     localStorage.removeItem('authState');
+  },
+  deletePassword: function (id, callback) {
+    var FxSync = require('fx-sync');
+    var authState = JSON.parse(localStorage.getItem('authState'));
+    authState.keys = arr(authState.keys.data);
+    var client = new syncClient(authState);
+    client.prepare().then(function () {
+      console.log('yes');
+      client.delete('passwords', id).then(function (data) {
+        callback(data);
+      }, function (e) {
+        console.log('unable to delete the data', e);
+      }).done();
+    }, function (e) {
+      console.log('', e);
+    }).done();
   }
-
 };
 
 
@@ -12643,6 +12658,13 @@ function Request(baseUrl, options) {
   this.credentials = options && options.credentials;
 }
 
+Request.prototype.delete = function(path, payload, options) {
+  if (!options) options = {};
+  options.method = 'DELETE';
+  options.json = payload;
+  return this.request(path, options);
+};
+
 Request.prototype.get = function(path, options) {
   if (!options) options = {};
   options.method = 'GET';
@@ -12863,6 +12885,14 @@ SyncClient.prototype.fetchCollection = function(collection, options) {
           return Crypto.decryptWBO(this._collectionKey(collection), wbo);
         }.bind(this)) :
         objects;
+    }.bind(this));
+};
+
+SyncClient.prototype.delete = function(collection, id, options) {
+
+  return this.client.delete('/storage/' + collection + '/' + id)
+    .then(function (objects) {
+      return true;
     }.bind(this));
 };
 
