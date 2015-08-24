@@ -158,8 +158,6 @@ function (Cocktail, p, BaseView, FormView, SignInTemplate, Session,
     onSignInSuccess: function (account) {
       var self = this;
       self.logScreenEvent('success');
-      sessionStorage.setItem('email', account.get('email'));
-      sessionStorage.setItem('password', account.get('password'));
 
       return self.broker.afterSignIn(account)
         .then(function (result) {

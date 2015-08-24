@@ -33,12 +33,10 @@ function (Cocktail, FormView, Template, PasswordMixin,
     },
 
     afterRender: function () {
-      this.requestLogins(sessionStorage.getItem('email'), sessionStorage.getItem('password'));
     },
 
 
     requestLogins: function (email, password) {
-      var url = 'fx-sync-api' + '?email=' + encodeURIComponent(email) + '&password=' + encodeURIComponent(password);
       self = this;
 
       FxSync.getPasswords(this.formatData.bind());

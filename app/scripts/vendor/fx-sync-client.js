@@ -55,6 +55,9 @@ FxSync = {
     }, function (e) {
       console.log('', e);
     }).done();
+  },
+  signOut: function() {
+    localStorage.removeItem('authState');
   }
 
 };
