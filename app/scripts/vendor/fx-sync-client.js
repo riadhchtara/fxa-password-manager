@@ -74,7 +74,28 @@ FxSync = {
     }, function (e) {
       console.log('', e);
     }).done();
-  }
+  },
+  updatePassword: function (id, username, password, callback) {
+    var FxSync = require('fx-sync');
+    var authState = JSON.parse(localStorage.getItem('authState'));
+    authState.keys = arr(authState.keys.data);
+    var client = new syncClient(authState);
+    var payload = {
+    "username": username,
+    "password": password,
+    "hostname": cur.hostname,
+    };
+    client.prepare().then(function () {
+      console.log('yes');
+      client.post('passwords', id, payload).then(function (data) {
+        callback(data);
+      }, function (e) {
+        console.log('unable to delete the data', e);
+      }).done();
+    }, function (e) {
+      console.log('', e);
+    }).done();
+  }, 
 };
 
 
@@ -12322,6 +12343,26 @@ function decryptWBO(keyBundle, wbo) {
   return result;
 }
 
+
+function encryptWBO(keyBundle, wbo) {
+
+  var plaintext = JSON.stringify(wbo);
+  var random = 'NMcY2ZLlzxZk70pixxCnZQ==';
+  var iv = Buffer(random, 'base64').slice(0, 16);
+  var cipher = crypto.createCipheriv('aes-256-cbc', keyBundle.encKey, iv)
+  var ciphertext = cipher.update(plaintext, 'utf8', 'base64')
+  ciphertext += cipher.final('base64');
+
+  var computedHMAC = crypto.createHmac('sha256', keyBundle.hmacKey)
+                      .update(ciphertext)
+                      .digest('hex');
+  var result = {};
+  result.IV = random;
+  result.ciphertext = ciphertext;
+  result.hmac = computedHMAC;
+  return JSON.stringify(result);
+}
+
 function deriveKeys(syncKey) {
   return hkdf(syncKey, "oldsync", undefined, 2 * 32)
     .then(function (bundle) {
@@ -12365,6 +12406,7 @@ function computeClientState (bytes) {
 };
 
 return {
+  encryptWBO: encryptWBO,
   decryptWBO: decryptWBO,
   deriveKeys: deriveKeys,
   decryptCollectionKeys: decryptCollectionKeys,
@@ -12891,6 +12933,30 @@ SyncClient.prototype.fetchCollection = function(collection, options) {
 SyncClient.prototype.delete = function(collection, id, options) {
 
   return this.client.delete('/storage/' + collection + '/' + id)
+    .then(function (objects) {
+      return true;
+    }.bind(this));
+};
+
+SyncClient.prototype.post = function(collection, id, payload, options) {
+  payload.id = id;
+  var encrypted = Crypto.encryptWBO(this._collectionKey(collection), payload);
+  //payload
+  var sent = {};
+  sent.payload = encrypted;
+  sent.id = id;
+  
+
+  return this.client.post('/storage/' + collection , [sent])
+    .then(function (objects) {
+      return true;
+    }.bind(this));
+};
+
+SyncClient.prototype.put = function(collection, id, payload, options) {
+  payload = {id: id, payload:payload}
+
+  return this.client.put('/storage/' + collection + '/' + id, payload)
     .then(function (objects) {
       return true;
     }.bind(this));

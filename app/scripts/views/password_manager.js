@@ -2,6 +2,8 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 
+var cur;
+
 define([
   'jquery',
   'cocktail',
@@ -64,12 +66,14 @@ function ($, Cocktail, FormView, Template, PasswordMixin,
       for (i = 0; i < logins.length; i++) {
         childen[i].onclick = function (current) {
           return function () {
+            cur = current;
             self.showDetails(current);
           };
         } (loginsMap[childen[i].getAttribute('lid')]);
       }
       if (logins.length) {
         self.showDetails(logins[0]);
+        cur = logins[0];
       }
 
     },
@@ -83,6 +87,14 @@ function ($, Cocktail, FormView, Template, PasswordMixin,
       document.querySelector('.login-detail .domain').innerHTML = current.hostname;
       document.getElementById('login-username').value = current.username;
       document.getElementById('login-password').value = current.password;
+      document.getElementById('save').onclick = function () {
+        FxSync.updatePassword(current.id, document.getElementById('login-username').value,
+          document.getElementById('login-password').value,
+          function () {
+            self.afterRender();
+          });
+      }
+
       document.getElementById('delete').onclick = function () {
         FxSync.deletePassword(current.id, function () {
           self.afterRender();
