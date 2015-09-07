@@ -75,7 +75,8 @@ FxSync = {
       console.log('', e);
     }).done();
   },
-  updatePassword: function (id, username, password, callback) {
+  updatePassword: function (id, username, password, hostname, formSubmitURL,
+      usernameField, passwordField, callback) {
     var FxSync = require('fx-sync');
     var authState = JSON.parse(localStorage.getItem('authState'));
     authState.keys = arr(authState.keys.data);
@@ -83,7 +84,10 @@ FxSync = {
     var payload = {
     "username": username,
     "password": password,
-    "hostname": cur.hostname,
+    "hostname": hostname,
+    "formSubmitURL": formSubmitURL,
+    "usernameField": usernameField,
+    "passwordField": passwordField,
     };
     client.prepare().then(function () {
       console.log('yes');

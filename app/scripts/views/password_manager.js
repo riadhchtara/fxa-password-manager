@@ -87,9 +87,19 @@ function ($, Cocktail, FormView, Template, PasswordMixin,
       document.querySelector('.login-detail .domain').innerHTML = current.hostname;
       document.getElementById('login-username').value = current.username;
       document.getElementById('login-password').value = current.password;
+      document.getElementById('login-hostname').value = current.hostname;
+      document.getElementById('login-formSubmitURL').value = current.formSubmitURL;
+      document.getElementById('login-usernameField').value = current.usernameField;
+      document.getElementById('login-passwordField').value = current.passwordField;
       document.getElementById('save').onclick = function () {
-        FxSync.updatePassword(current.id, document.getElementById('login-username').value,
+        FxSync.updatePassword(
+          current.id,
+          document.getElementById('login-username').value,
           document.getElementById('login-password').value,
+          document.getElementById('login-hostname').value,
+          document.getElementById('login-formSubmitURL').value,
+          document.getElementById('login-usernameField').value,
+          document.getElementById('login-passwordField').value,
           function () {
             self.afterRender();
           });
