@@ -7,6 +7,7 @@ var cur;
 define([
   'jquery',
   'cocktail',
+  'uuid',
   'views/form',
   'stache!templates/password_manager',
   'views/mixins/password-mixin',
@@ -15,11 +16,37 @@ define([
   'views/mixins/back-mixin',
   'views/mixins/account-locked-mixin'
 ],
-function ($, Cocktail, FormView, Template, PasswordMixin,
+function ($, Cocktail, uuid, FormView, Template, PasswordMixin,
   FloatingPlaceholderMixin, ServiceMixin, BackMixin, AccountLockedMixin) {
   'use strict';
 
   var self;
+
+
+  var add = function () {
+    document.querySelector('.login-detail .page-name').innerHTML = '';
+    document.querySelector('.login-detail .domain').innerHTML = '';
+
+    document.getElementById('login-username').value = '';
+    document.getElementById('login-password').value = '';
+    document.getElementById('login-hostname').value = '';
+    document.getElementById('login-formSubmitURL').value = '';
+    document.getElementById('login-usernameField').value = '';
+    document.getElementById('login-passwordField').value = '';
+    document.getElementById('save').onclick = function () {
+      FxSync.updatePassword(
+        '{' + uuid.v1() + '}',
+        document.getElementById('login-username').value,
+        document.getElementById('login-password').value,
+        document.getElementById('login-hostname').value,
+        document.getElementById('login-formSubmitURL').value,
+        document.getElementById('login-usernameField').value,
+        document.getElementById('login-passwordField').value,
+        function () {
+          self.afterRender();
+        });
+    }
+  };
 
   var View = FormView.extend({
     // user must be authenticated to change password
@@ -38,10 +65,11 @@ function ($, Cocktail, FormView, Template, PasswordMixin,
     afterRender: function () {
       self = this;
       FxSync.getPasswords(this.formatData.bind());
-      $('#edit').click(function() {
-        alert("mm")
-        $('#login-password').attr('type', 'text');
-      });
+    },
+
+    events: {
+      // validateAndSubmit is used to prevent multiple concurrent submissions.
+      'click #add': add
     },
 
     formatData: function (data) {
@@ -78,9 +106,6 @@ function ($, Cocktail, FormView, Template, PasswordMixin,
 
     },
 
-    submit: function () {
-
-    },
     showDetails: function (current) {
       self.getClass(current.hostname);
       document.querySelector('.login-detail .page-name').innerHTML = self.getDomain(current.hostname);
